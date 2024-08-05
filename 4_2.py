@@ -28,3 +28,4 @@ for i in widht_list : # 가로 반복
 # 4. 출력
 for i in map : # 리스트 출력
     print(i)
+

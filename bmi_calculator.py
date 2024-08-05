@@ -8,7 +8,7 @@ if bmi < 18.5 :
 elif bmi >= 18.5 and bmi < 25 :
     print("정상체중 입니다")
 elif bmi >= 25 and bmi < 30 :
-    print("경도비만 입니다") : 
+    print("경도비만 입니다") 
 elif bmi >= 30 and bmi < 35 :
     print("중등도비만 입니다")
 else :
