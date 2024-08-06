@@ -1,52 +1,46 @@
 # 카이샤르 암호화 하기
 # 입력받은 문자를 입력한 숫자만큼 인덱스 옮겨서 출력하기
-alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+# 진행 중 올바른 문자를 입력한다는 가정
 
-# 암호화 함수
-def encrpt(plain_text, shift_amount):
-    text_list = [i for i in plain_text]
-    for i in text_list:
-        position = alphabet.index(i) + shift_amount
-        if position > 25 :
-            position_over = position - 26
-            print(alphabet[position_over],end="")
-        else: 
-            print(alphabet[position],end="")
-
-# 복호화
-def decrpt(cipher_text, plain_amount):
-    text_list = [i for i in  cipher_text]
-    for i in text_list:
-        position = alphabet.index(i) - plain_amount
-        if position < 0 :
-            position_over = position + 26
-            print(alphabet[position_over],end="")
-        else: 
-            print(alphabet[position],end="")
-
+import caesar_art
+import string
+     
+# 암호화 복호화 
 def caesar(direct, start_text, shift_amount):
-    text_list = [i for i in  start_text]
-    for i in text_list:
-        position = alphabet.index(i) + shift_amount
-        if direct == "decode":
-            position *= - 1
-        if position > 25 :
-            position_over = position - 26
-            print(alphabet[position_over],end="")
-        elif position < 0 :
-            position_over = position + 26
-            print(alphabet[position_over],end="")
+    shift_amount = shift_amount if direct == "encode" else - shift_amount # 복호화 암호화 판단
+    result = "" # 출력 할 문자
+    for word in start_text: 
+        if word in alphabet:
+            position  = (alphabet.index(word) + shift_amount) % 26 # 암호화는 26초과시 양수 복호화는 음수
+            result += alphabet[position] 
+        else :
+            result += word # 숫자,공백 유지
+            
+    print(f"here's your {direct} result: {result}")
+               
+# 1. 로고 출력 및 알파벳 리스트 생성
+loge_art = caesar_art.logo
+print(loge_art)
+alphabet = [i for i in string.ascii_letters] 
+
+# 게임이 종료될때까지 반복
+while True:  
+    # 2. 문자열과 수 입력받기
+    direction = input("Type 'encode' to encrypt, type 'decode' to decrypt:\n")
+    text = input("Type your message:\n").lower() # 문자열 입력  
+    while True:
+        shift = int(input("Type the shift number:\n")) # 이동 수 입력 (범위 초과하면 다시)
+        if shift < len(alphabet):
+            break
         else: 
-            print(alphabet[position],end="")
-        
+            print("Please input it again(26 > shift)") 
 
-# 1. 문자열과 수 입력받기
-direction = input("Type 'encode' to encrypt, type 'decode' to decrypt:\n")
-text = input("Type your message:\n").lower() # 문자열 입력
-shift = int(input("Type the shift number:\n")) # 옮길 수 입력
-
-if direction == "encode":
-    encrpt(text, shift)
-
-elif direction == "decode":
-    decrpt(text, shift)
+    caesar(direction, text, shift) # 호출
+    
+    # 게임진행여부 판단
+    game = input(" they want to restart the cipher program?(yes or no): ").lower()
+    if game == "no" : # 게임을 그만두고 싶다면
+        print("Good Bye")
+        break
+    
+   
